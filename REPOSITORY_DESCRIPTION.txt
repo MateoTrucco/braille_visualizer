@@ -1,1 +1,1 @@
-Educational Python text-to-six-dot Braille visualizer with capital and number indicators, Unicode output, dot-board rendering, unknown-character reporting and automated tests.
+An educational Python visualizer that converts text into six-dot Braille cells and Unicode output, with capital/number indicators and unknown-character reporting.
