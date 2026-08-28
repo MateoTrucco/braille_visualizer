@@ -9,6 +9,8 @@ const run = document.querySelector('#run');
 let py;
 let sampleIndex = 0;
 let timer;
+let language = localStorage.getItem('mateo-ui-language') || (navigator.language.toLowerCase().startsWith('es') ? 'es' : 'en');
+const t = (en, es) => language === 'es' ? es : en;
 
 async function init() { py = await bootPython(['braille.py']); run.disabled = false; render(); }
 
@@ -25,11 +27,11 @@ function render() {
   py.globals.set('demo_text', source.value);
   const raw = py.runPython(`import json\nfrom braille import translate\nt=translate(demo_text)\njson.dumps({'unicode':t.unicode_text,'unknown':list(t.unknown_characters),'cells':[{'source':c.source,'dots':list(c.dots),'kind':c.kind} for c in t.cells]},ensure_ascii=False)`);
   const data = parsePythonJson(raw);
-  unicode.textContent = data.unicode || '(empty input)';
+  unicode.textContent = data.unicode || t('(empty input)', '(entrada vacía)');
   cells.innerHTML = data.cells.map(cellHtml).join('');
   const indicators = data.cells.filter((cell) => cell.kind.endsWith('sign')).length;
-  document.querySelector('#brailleMetrics').innerHTML = `<div class="metric"><strong>${data.cells.length}</strong><small>Output cells</small></div><div class="metric"><strong>${indicators}</strong><small>Indicators</small></div><div class="metric"><strong>${data.unknown.length}</strong><small>Unknown symbols</small></div>`;
-  unknown.textContent = data.unknown.length ? `Unknown characters are rendered as a full cell: ${data.unknown.join(' ')}` : 'Every character in this sample is covered by the educational mapping.';
+  document.querySelector('#brailleMetrics').innerHTML = `<div class="metric"><strong>${data.cells.length}</strong><small>${t('Output cells','Celdas de salida')}</small></div><div class="metric"><strong>${indicators}</strong><small>${t('Indicators','Indicadores')}</small></div><div class="metric"><strong>${data.unknown.length}</strong><small>${t('Unknown symbols','Símbolos desconocidos')}</small></div>`;
+  unknown.textContent = data.unknown.length ? `${t('Unknown characters are rendered as a full cell','Los caracteres desconocidos se muestran como celda completa')}: ${data.unknown.join(' ')}` : t('Every character in this sample is covered by the educational mapping.','Todos los caracteres de este ejemplo están cubiertos por el mapeo educativo.');
 }
 
 run.disabled = true;
@@ -37,3 +39,4 @@ run.addEventListener('click', render);
 source.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(render, 120); });
 document.querySelector('#sample').addEventListener('click', () => { source.value = samples[sampleIndex++ % samples.length]; render(); });
 init().catch(() => {});
+document.addEventListener('mt:language', (event) => { language = event.detail.language; render(); });

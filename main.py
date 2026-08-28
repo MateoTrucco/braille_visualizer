@@ -7,6 +7,7 @@ from pathlib import Path
 from tkinter import messagebox, ttk
 
 from braille import render_board, translate
+from ui_theme import apply_theme, text_style
 
 
 class BrailleApp:
@@ -15,10 +16,9 @@ class BrailleApp:
         self.root.title("Six-dot Braille Visualizer")
         self.root.geometry("850x620")
         self.root.minsize(650, 500)
-
+        self.colors = apply_theme(root, "#0284c7")
         style = ttk.Style(root)
-        style.configure("Title.TLabel", font=("Segoe UI", 22, "bold"))
-        style.configure("Hint.TLabel", font=("Segoe UI", 10))
+        style.configure("Hint.TLabel", font=("Segoe UI", 10), foreground=self.colors["muted"])
 
         container = ttk.Frame(root, padding=18)
         container.pack(fill="both", expand=True)
@@ -35,10 +35,11 @@ class BrailleApp:
         self.input_text = tk.Text(container, height=4, wrap="word", font=("Segoe UI", 12))
         self.input_text.grid(row=2, column=0, sticky="ew")
         self.input_text.insert("1.0", "Hola Mateo 2026")
+        text_style(self.input_text, self.colors)
 
         button_row = ttk.Frame(container)
         button_row.grid(row=3, column=0, sticky="ew", pady=10)
-        ttk.Button(button_row, text="Translate", command=self.update_translation).pack(side="left")
+        ttk.Button(button_row, text="Translate", style="Accent.TButton", command=self.update_translation).pack(side="left")
         ttk.Button(button_row, text="Copy Unicode", command=self.copy_unicode).pack(side="left", padx=8)
         ttk.Button(button_row, text="Clear", command=self.clear).pack(side="left")
 
@@ -65,6 +66,7 @@ class BrailleApp:
             pady=10,
         )
         self.board.grid(row=0, column=0, sticky="nsew")
+        text_style(self.board, self.colors, readonly=True)
         scrollbar = ttk.Scrollbar(board_frame, orient="vertical", command=self.board.yview)
         scrollbar.grid(row=0, column=1, sticky="ns")
         self.board.configure(yscrollcommand=scrollbar.set)
