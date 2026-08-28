@@ -1,7 +1,7 @@
-# Live demo
+# Live experience
 
-Open: **https://mateotrucco.github.io/braille_visualizer/**
+**[Open Six-dot Braille Visualizer](https://mateotrucco.github.io/braille_visualizer/)**
 
-Demo type: **pyodide**
+Runtime: **Repository Python core via Pyodide**
 
-The repository README explains whether the browser executes original project logic, the native web app, or a safe simulator for platform/backend-only behavior.
+The repository README covers local setup, tested behavior and the relationship between this browser experience and the full application.

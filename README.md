@@ -25,21 +25,16 @@ python -m pytest tests
 
 ---
 
-## Live demo
+## Interactive preview
 
-**[Open the live demo](https://mateotrucco.github.io/braille_visualizer/)**
+[![Six-dot Braille Visualizer interface](screenshots/preview.png)](https://mateotrucco.github.io/braille_visualizer/)
 
-The demo runs the repository’s original Python logic directly in the browser with Pyodide 314.0.4. The desktop Tkinter interface remains available through `main.py`.
+**[Open the live experience](https://mateotrucco.github.io/braille_visualizer/)** · [View the portfolio](https://mateotrucco.github.io/)
 
-## Repository setup
+## Engineering baseline
 
-This separated repository also includes:
-
-- MIT license
-- project-specific `.gitignore`
-- automated tests / CI
-- GitHub Pages deployment for the demo
-- `screenshots/` placeholder for portfolio images
-
-The source files from the cleaned portfolio base were preserved unless a web-demo integration file had to be added.
+- Business logic separated from presentation
+- Automated tests and GitHub Actions CI
+- Responsive, keyboard-friendly browser experience
+- MIT licensed and documented setup
 
